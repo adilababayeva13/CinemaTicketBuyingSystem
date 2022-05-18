@@ -60,7 +60,7 @@ public class Main {
       } else {
          total = total + n * movie3.getPrice();
       }
-      System.out.println("Do you want to buy more tickets? (if yes , type 1,else 0)");
+      System.out.println("Total amount is: " + total + "\nDo you want to buy more tickets? (if yes , type 1,else 0)");
       int bool = scanner.nextInt();
       if (bool == 1) {
          function();
