@@ -30,7 +30,7 @@ public class Main {
       System.out.println("Choose hour :\n1. " + "13.00" + "\n2. " + "18.00");
       int hour_id = scanner.nextInt();
 
-      System.out.println("How many tickets do you want to but?:");
+      System.out.println("How many tickets do you want to buy?:");
       int n = scanner.nextInt();
 
       if (movie_id == 1) {
