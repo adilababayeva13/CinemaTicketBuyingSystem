@@ -46,16 +46,19 @@ public class Movie {
       return this.seats[day - 1][hour - 1];
    }
 
-   public void BookTicket(int day, int hour, String seat) {
+   public String BookTicket(int day, int hour, String seat) {
       int x = Integer.parseInt(seat);
+      String choice = seat;
       if (this.seats[day - 1][hour - 1][x - 1] == "x") {
          System.out.println("This sead has already been booked. Choose another seat :");
          Scanner scanner = new Scanner(System.in);
-         String choice = scanner.next();
+         choice = scanner.next();
          this.BookTicket(day, hour, choice);
       } else {
          this.seats[day - 1][hour - 1][x - 1] = "x";
          System.out.println("You booked this seat successfully.");
       }
+      return choice;
+
    }
 }

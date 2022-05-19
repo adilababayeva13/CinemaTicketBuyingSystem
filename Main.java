@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Main {
    public static int total = 0;
+   public static int movie_id;
+   public static ArrayList<Ticket> tickets = new ArrayList<Ticket>();
    public static String[] str1 = new String[] { "01.06.2022", "03.06.2022", "04.06.2022" };
    public static String[] str2 = new String[] { "21.05.2022", "02.06.2022", "05.06.2022" };
    public static String[] str3 = new String[] { "22.05.2022", "01.06.2022", "02.06.2022" };
@@ -10,21 +12,21 @@ public class Main {
    public static Movie movie3 = new Movie("The Lord of the Rings: The Return of the King", 15, str3);
 
    static void function() {
+      Movie[] movies = new Movie[] { movie1, movie2, movie3 };
       Scanner scanner = new Scanner(System.in);
-      System.out.println("Choose the movie :\n1. " + movie1.getName() + "\n2. " + movie2.getName() + "\n3. "
-            + movie3.getName());
-      int movie_id = scanner.nextInt();
-
-      if (movie_id == 1) {
-         System.out.println("Choose day :\n1. " + movie1.getDays()[0] + "\n2. " + movie1.getDays()[1] + "\n3. "
-               + movie1.getDays()[2]);
-      } else if (movie_id == 2) {
-         System.out.println("Choose day :\n1. " + movie2.getDays()[0] + "\n2. " + movie2.getDays()[1] + "\n3. "
-               + movie2.getDays()[2]);
-      } else {
-         System.out.println("Choose day :\n1. " + movie3.getDays()[0] + "\n2. " + movie3.getDays()[1] + "\n3. "
-               + movie3.getDays()[2]);
+      System.out.println("Choose the movie : ");
+      for (int i = 0; i < movies.length; i++) {
+         System.out.println((i + 1) + ". " + movies[i].getName());
       }
+      movie_id = scanner.nextInt() - 1;
+      if ((movie_id + 1 > movies.length) || (movie_id < 0)) {
+         System.out.println("Please enter right choice.\n");
+         function();
+      }
+
+      System.out.println(
+            "Choose day :\n1. " + movies[movie_id].getDays()[0] + "\n2. " + movies[movie_id].getDays()[1] + "\n3. "
+                  + movies[movie_id].getDays()[2]);
       int day_id = scanner.nextInt();
 
       System.out.println("Choose hour :\n1. " + "13.00" + "\n2. " + "18.00");
@@ -33,32 +35,19 @@ public class Main {
       System.out.println("How many tickets do you want to buy?:");
       int n = scanner.nextInt();
 
-      if (movie_id == 1) {
-         for (int i = 0; i < n; i++) {
-            System.out.println("Choose seat :" + Arrays.toString(movie1.getSeats(day_id, hour_id)));
-            String seat = scanner.next();
-            movie1.BookTicket(day_id, hour_id, seat);
-         }
-      } else if (movie_id == 2) {
-         for (int i = 0; i < n; i++) {
-            System.out.println("Choose seat :" + Arrays.toString(movie2.getSeats(day_id, hour_id)));
-            String seat = scanner.next();
-            movie2.BookTicket(day_id, hour_id, seat);
-         }
-      } else {
-         for (int i = 0; i < n; i++) {
-            System.out.println("Choose seat :" + Arrays.toString(movie3.getSeats(day_id, hour_id)));
-            String seat = scanner.next();
-            movie3.BookTicket(day_id, hour_id, seat);
-         }
+      for (int i = 0; i < n; i++) {
+         System.out.println("Choose seat :" + Arrays.toString(movies[movie_id].getSeats(day_id, hour_id)));
+         String seat = scanner.next();
+         String x = movies[movie_id].BookTicket(day_id, hour_id, seat);
+         Ticket ticket = new Ticket(movies[movie_id].getName(), movies[movie_id].getDays()[day_id - 1],
+               movies[movie_id].getHours()[hour_id - 1], x, movies[movie_id].getPrice());
+         tickets.add(ticket);
       }
 
-      if (movie_id == 1) {
-         total = total + n * movie1.getPrice();
-      } else if (movie_id == 2) {
-         total = total + n * movie2.getPrice();
-      } else {
-         total = total + n * movie3.getPrice();
+      total = total + n * movies[movie_id].getPrice();
+      System.out.println("Tickets ... \n");
+      for (int i = 0; i < tickets.size(); i++) {
+         tickets.get(i).getTicket();
       }
       System.out.println("Total amount is: " + total + "\nDo you want to buy more tickets? (if yes , type 1,else 0)");
       int bool = scanner.nextInt();
